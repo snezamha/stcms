@@ -1,6 +1,6 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
-import { NextAuthOptions } from 'next-auth';
+import { NextAuthOptions, getServerSession } from 'next-auth';
 
 import { Adapter } from 'next-auth/adapters';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -14,7 +14,8 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXT_AUTH_SECRET,
   pages: {
-    signIn: '/',
+    signIn: '/auth',
+    error: '/auth/error',
   },
   providers: [
     CredentialsProvider({
@@ -33,7 +34,7 @@ export const authOptions: NextAuthOptions = {
           },
         });
         if (!user) {
-          throw new Error('مشکلی در احراز هویت وجود دارد');
+          throw new Error();
         }
         if (
           (user && credentials.otpCode == user.otpCode) ||
@@ -44,7 +45,7 @@ export const authOptions: NextAuthOptions = {
             phoneNumber: user.phoneNumber,
           };
         }
-        throw new Error('کد تایید اشتباه است');
+        throw new Error('WrongCode');
       },
     }),
   ],
@@ -89,3 +90,4 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+export const getAuthSession = () => getServerSession(authOptions);

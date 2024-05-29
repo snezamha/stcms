@@ -38,7 +38,7 @@ export default function LocaleToggler() {
           <span className='sr-only'>Change Locale</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
+      <DropdownMenuContent align='center'>
         {locales.map((locale) => (
           <DropdownMenuItem
             key={locale.value}

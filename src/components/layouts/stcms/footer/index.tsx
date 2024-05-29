@@ -30,7 +30,7 @@ export default async function Footer() {
         </div>
 
         <nav className='flex flex-row gap-1 font-medium justify-center'>
-          <Settings session={session} />
+          <Settings user={session} />
           <Suspense>
             <LocaleToggler />
           </Suspense>

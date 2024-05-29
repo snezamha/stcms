@@ -6,6 +6,7 @@ declare module 'next-auth' {
       _id: string;
       phoneNumber: string;
       isAdmin: boolean;
+      expires: string;
     };
   }
 }

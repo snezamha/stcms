@@ -6,7 +6,7 @@ export default async function NotFound() {
   const scopedT = await getScopedI18n('common');
   return (
     <>
-      <section className='flex items-center h-full'>
+      <section className='flex items-center h-full mt-16'>
         <div className='container flex flex-col items-center justify-center px-5 mx-auto my-8 space-y-8 text-center'>
           <svg
             xmlns='http://www.w3.org/2000/svg'

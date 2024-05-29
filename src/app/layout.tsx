@@ -3,7 +3,6 @@ import localFont from 'next/font/local';
 import { cookies } from 'next/headers';
 import { cn } from '@/lib/utils';
 import './globals.css';
-import Footer from '@/components/layouts/stcms/footer';
 import { ThemeProvider } from '@/components/layouts/stcms/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { I18nProviderClient } from '@/locales/client';
@@ -35,7 +34,7 @@ export default function RootLayout({
       <body
         suppressHydrationWarning={true}
         className={cn(
-          'font-sans rtl:font-iranyekan antialiased min-h-screen flex flex-col',
+          'font-sans rtl:font-iranyekan antialiased',
           fontSans.variable,
           fontHeading.variable
         )}
@@ -44,10 +43,7 @@ export default function RootLayout({
           <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
             <Direction>
               <I18nProviderClient locale={locale}>
-                <main className='flex-grow flex justify-center items-center'>
-                  {children}
-                </main>
-                <Footer />
+                {children}
                 <Toaster />
               </I18nProviderClient>
             </Direction>

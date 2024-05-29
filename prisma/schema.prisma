@@ -19,7 +19,83 @@ model User {
   phoneNumber  String   @unique
   otpCode      String
   otpExpiresIn DateTime
-  isAdmin      Boolean  @default(false)
+  isAdmin       Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  stores       Store[]
+  orders       Order[]
+  stCmsCurrentPeriodEnd DateTime? @map(name: "stcms_current_period_end")
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Store {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?     @db.String
+  userId      String      @db.ObjectId
+  User        User        @relation(fields: [userId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  Product     Product[]
+  OrderItem   OrderItem[]
+
+  @@index([userId])
+}
+
+model Product {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  slug        String?
+  description String?     @db.String
+  price       String      @db.String
+  category    String      @db.String
+  images      Json?
+  storeId     String      @db.ObjectId
+  Store       Store       @relation(fields: [storeId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+
+  @@index([storeId, name])
+}
+
+enum TRANSACTION_STATUS {
+  PENDING
+  PAID
+  CANCELED
+}
+
+model Order {
+  id         String             @id @default(auto()) @map("_id") @db.ObjectId
+  totalPrice String
+  token      String
+  status     TRANSACTION_STATUS
+  userId     String             @db.ObjectId
+  User       User               @relation(fields: [userId], references: [id])
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  orderItems OrderItem[]
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String  @db.ObjectId
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  storeId   String  @db.ObjectId
+  store     Store   @relation(fields: [storeId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
 }

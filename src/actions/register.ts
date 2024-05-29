@@ -53,7 +53,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       phoneNumber,
       otpCode: randNumber.toString(),
       otpExpiresIn: twoMinutesLater,
-      is_admin: false,
+      isAdmin: false,
     },
   });
 

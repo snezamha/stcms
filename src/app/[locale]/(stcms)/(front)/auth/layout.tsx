@@ -8,7 +8,9 @@ export default async function AuthLayout({
   if (session) redirect('/');
   return (
     <>
-      <div className='w-full max-w-[400px] px-5'>{children}</div>
+      <div className='flex-grow flex justify-center items-center mt-16'>
+        <div className='w-full max-w-[400px] px-5'>{children}</div>
+      </div>
     </>
   );
 }

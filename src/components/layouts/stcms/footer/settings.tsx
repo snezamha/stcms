@@ -9,14 +9,14 @@ import {
 import { useScopedI18n } from '@/locales/client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { DefaultSession } from 'next-auth';
 import LogOutButton from './logout';
+import { Session } from 'next-auth';
 
 interface SettingsProps {
-  session: DefaultSession | null;
+  user: Session | null;
 }
 
-export default function SettingsMenu({ session }: SettingsProps) {
+export default function SettingsMenu({ user }: SettingsProps) {
   const scopedT = useScopedI18n('settings');
 
   return (
@@ -33,7 +33,7 @@ export default function SettingsMenu({ session }: SettingsProps) {
             {scopedT('mainPage')}
           </Link>
         </DropdownMenuItem>
-        {session ? (
+        {user ? (
           <>
             <DropdownMenuItem asChild>
               <Link href='/dashboard'>
