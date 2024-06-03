@@ -20,11 +20,10 @@ export default async function ProductsPage({
   const formattedData: ProductColumn[] = data.map((item) => ({
     id: item.id,
     price: item.price,
-    category: item.category,
     name: item.name,
     storeId: item.storeId,
     createdAt: item.createdAt,
-    updatedAt : item.updatedAt
+    updatedAt: item.updatedAt,
   }));
 
   return (

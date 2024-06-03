@@ -27,11 +27,7 @@ export default async function UpdateStoreLayout({
   }
   return (
     <>
-      <Heading
-        className='mb-8'
-        title={t('dashboard')}
-        description={t('storeHeadingDescription')}
-      />
+      <Heading title={t('title')} description='' />
       <section className='space-y-8 overflow-auto'>
         <StoreTabs storeId={storeId} />
         {children}

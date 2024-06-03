@@ -24,10 +24,7 @@ const StorePage = async () => {
   return (
     <>
       <div className='flex items-center justify-between'>
-        <Heading
-          title={t('title')}
-          description={t('storeHeadingDescription')}
-        />
+        <Heading title={t('title')} description='' />
         {stores.length > 0 && (
           <Link className={buttonVariants()} href='/dashboard/store/new'>
             {t('createStore')}

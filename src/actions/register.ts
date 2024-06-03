@@ -1,5 +1,6 @@
 'use server';
 import { getScopedI18n } from '@/locales/server';
+import { sendOtp } from '@/utils/sms';
 
 import * as z from 'zod';
 const REG = /^09\d{9}$/;
@@ -37,6 +38,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
           otpExpiresIn: twoMinutesLater,
         },
       });
+      sendOtp(existingUser.phoneNumber, randNumber);
+      console.log(existingUser.phoneNumber, randNumber);
+
       return {
         success: t('codeSent'),
         sec: countSecons(twoMinutesLater),
@@ -56,6 +60,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       isAdmin: false,
     },
   });
+  sendOtp(phoneNumber, randNumber);
+  console.log(phoneNumber, randNumber);
 
   return { success: t('codeSent'), sec: countSecons(twoMinutesLater) };
 };

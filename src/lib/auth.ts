@@ -73,6 +73,7 @@ export const authOptions: NextAuthOptions = {
 
           //Put new created user data in session
           session.user._id = newUser.id;
+          session.user.fullName = null;
           session.user.phoneNumber = newUser.phoneNumber;
           session.user.isAdmin = false;
           return session;
@@ -82,6 +83,7 @@ export const authOptions: NextAuthOptions = {
       } else {
         //User allready exist in localDB, put user data in session
         session.user._id = user.id;
+        session.user.fullName = user.fullName;
         session.user.phoneNumber = user.phoneNumber;
         session.user.isAdmin = user.isAdmin;
       }

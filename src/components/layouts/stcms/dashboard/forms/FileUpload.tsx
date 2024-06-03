@@ -1,13 +1,14 @@
 'use client';
 
-import { X } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from '@/components/ui/use-toast';
 import { UploadFileResponse } from 'uploadthing/client';
+import { UploadDropzone } from '@uploadthing/react';
+import { OurFileRouter } from '@/app/api/uploadthing/core';
 
 import deleteFiles from '@/actions/delete-files';
 import { Button } from '@/components/ui/button';
-import { UploadButton } from '@/lib/uploadthing';
 
 interface FileUploadProps {
   onChange: (value: UploadFileResponse[]) => void;
@@ -26,32 +27,40 @@ export const FileUpload = ({
     <>
       {value ? (
         <div className='pb-5 flex flex-wrap gap-4'>
-          {value?.map((item, index) => (
-            <div key={index} className='relative w-[200px] h-[200px]'>
-              <Button
-                type='button'
-                className='z-10 absolute -top-3 -right-3 hover:bg-destructive'
-                onClick={async () => {
-                  onRemove(item.url);
-                  await deleteFiles(item.key);
-                }}
-                variant='destructive'
-                size='icon'
-              >
-                <X className='h-6 w-6' />
-              </Button>
-              <Image
-                fill
-                className='rounded-md object-cover '
-                alt={item.name ?? 'Image'}
-                src={item.url}
-              />
+          {value?.map((item) => (
+            <div
+              key={item.key}
+              className='relative h-[200px] w-[200px] overflow-hidden rounded-md'
+            >
+              <div className='absolute right-2 top-2 z-10'>
+                <Button
+                  type='button'
+                  onClick={async () => {
+                    onRemove(item.url);
+                    await deleteFiles(item.key);
+                  }}
+                  variant='destructive'
+                  size='sm'
+                >
+                  <Trash className='h-4 w-4' />
+                </Button>
+              </div>
+              <div>
+                <Image
+                  fill
+                  className='rounded-md object-cover '
+                  alt={item.name ?? 'Image'}
+                  src={item.url}
+                />
+              </div>
             </div>
           ))}
         </div>
       ) : null}
-      <UploadButton
+      <UploadDropzone<OurFileRouter>
+        className='ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300 py-2 dark:bg-zinc-800'
         endpoint={endpoint}
+        config={{ mode: 'auto' }}
         onClientUploadComplete={(res: any) => {
           onChange(res!);
         }}

@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   return (
     <>
       <Navbar user={session?.user} />
-      <div className='flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <div className='flex mx-auto px-4 sm:px-6 lg:px-8'>
         <aside className='hidden md:block ltr:border-r rtl:border-l min-h-screen pt-10 ltr:pr-6 rtl:pl-6 w-[200px]'>
           <SidebarNav />
         </aside>

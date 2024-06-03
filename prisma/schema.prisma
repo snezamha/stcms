@@ -14,26 +14,18 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  fullName     String?
-  phoneNumber  String   @unique
-  otpCode      String
-  otpExpiresIn DateTime
-  isAdmin       Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  stores       Store[]
-  orders       Order[]
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+  fullName              String?
+  phoneNumber           String    @unique
+  otpCode               String
+  otpExpiresIn          DateTime
+  isAdmin               Boolean   @default(false)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  stores                Store[]
+  orders                Order[]
   stCmsCurrentPeriodEnd DateTime? @map(name: "stcms_current_period_end")
-}
-
-model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
+  Post                  Post[]
 }
 
 model Store {
@@ -98,4 +90,17 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+model Post {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  content   Json?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  authorId  String   @db.ObjectId
+  User      User     @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
 }
